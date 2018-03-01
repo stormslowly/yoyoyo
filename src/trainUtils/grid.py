@@ -1,49 +1,52 @@
 import torchvision.transforms as T
 import torch
 
-from  matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
+from PIL import Image, ImageDraw, ImageFont
 
 from PIL import Image
 
 image = Image.open('./BJ.jpg')
 
 
-def put_grid_on(torsor):
-    np = torsor.numpy()
-    print(np.shape)
+def put_grid_on(image):
+    image_draw = ImageDraw.Draw(image)
 
-    dx = 800 / 40
+    n_x_grid = 16
+    n_y_grid = 12
 
-    np[0:, ::dx, :] = 0
-    np[1:, ::dx, :] = 0
-    np[2:, ::dx, :] = 0
+    x_grid_size = 800 / n_x_grid
+    y_grid_size = 600 / n_y_grid
 
-    dy = int(600 / 27)
+    for i in range(n_x_grid):
+        x = (i + 1) * x_grid_size
+        image_draw.line((x, 0, x, 600), fill=0, width=2)
 
-    np[0:, :, ::dy] = 0
-    np[1:, :, ::dy] = 0
-    np[2:, :, ::dy] = 0
+    for i in range(n_y_grid):
+        y = (i + 1) * y_grid_size
+        image_draw.line((0, y, 800, y), fill=0, width=2)
 
-    return torch.from_numpy(np)
+    return image
 
 
-scaleto = T.Compose(
+scale_to = T.Compose(
     [
         T.Scale((800, 600)),
-        T.ToTensor(),
+        # T.ToTensor(),
         put_grid_on,
-        T.ToPILImage(),
+        # T.ToPILImage(),
     ]
 )
 
 grid_color = [0, 0, 0]
 
-image = scaleto(image)
+image = scale_to(image)
 
-print(image)
-gridSize = (40, 27)
+image.save('./BJ.grid.jpg')
 
 plt.imshow(image)
 plt.show()
-
-print("end? yoo")
+#
+# print(image.data)
+#
+# print("end? yoo")
