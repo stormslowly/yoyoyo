@@ -7,6 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 from PIL import Image
 
 image = Image.open('./BJ.jpg')
+btn_image = Image.open('./login_youke.png')
 
 
 def put_grid_on(image):
@@ -38,11 +39,13 @@ scale_to = T.Compose(
     ]
 )
 
-grid_color = [0, 0, 0]
+image = scale_to(image).convert("RGBA")
 
-image = scale_to(image)
+btn_image = btn_image.convert("RGBA")
 
-image.save('./BJ.grid.jpg')
+image.paste(btn_image)
+
+image.save('./BJ.grid.png')
 
 plt.imshow(image)
 plt.show()

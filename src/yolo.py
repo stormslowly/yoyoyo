@@ -46,7 +46,6 @@ class YoLo(nn.Module):
 
         self.convs = nn.Sequential(
             *cnns,
-            nn.Linear()
         )
 
     def forward(self, x):
