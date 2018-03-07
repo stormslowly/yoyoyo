@@ -104,4 +104,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+VOCdevkit/
+*.tar
+*.txt
 
