@@ -1,10 +1,7 @@
 import torchvision.transforms as T
-import torch
-
-from matplotlib import pyplot as plt
-from PIL import Image, ImageDraw, ImageFont
-
 from PIL import Image
+from PIL import ImageDraw
+from matplotlib import pyplot as plt
 
 image = Image.open('./BJ.jpg').convert("RGBA")
 btn_image = Image.open('./login_youke.png').convert("RGBA")
