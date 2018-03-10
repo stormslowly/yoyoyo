@@ -35,7 +35,7 @@ max_epochs = max_batches * batch_size / nsamples + 1
 use_cuda = True
 seed = int(time.time())
 eps = 1e-5
-save_interval = 10  # epoches
+save_interval = 2  # epoches
 dot_interval = 70  # batches
 
 # Test parameters
@@ -136,8 +136,8 @@ def train(epoch):
         t2 = time.time()
         adjust_learning_rate(optimizer, processed_batches)
         processed_batches = processed_batches + 1
-        # if (batch_idx+1) % dot_interval == 0:
-        #    sys.stdout.write('.')
+        if (batch_idx + 1) % dot_interval == 0:
+            sys.stdout.write('.')
 
         if use_cuda:
             data = data.cuda()
@@ -156,7 +156,7 @@ def train(epoch):
         t8 = time.time()
         optimizer.step()
         t9 = time.time()
-        if False and batch_idx > 1:
+        if True and batch_idx > 1:
             avg_time[0] = avg_time[0] + (t2 - t1)
             avg_time[1] = avg_time[1] + (t3 - t2)
             avg_time[2] = avg_time[2] + (t4 - t3)
