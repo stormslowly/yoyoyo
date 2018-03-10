@@ -22,7 +22,7 @@ class TinyYoloNet(nn.Module):
         self.seen = 0
         self.num_classes = 20
         self.anchors = [1.08, 1.19, 3.42, 4.41, 6.63, 11.38, 9.42, 5.11, 16.62, 10.52]
-        self.num_anchors = len(self.anchors) / 2
+        self.num_anchors = int(len(self.anchors) / 2)
         num_output = int((5 + self.num_classes) * self.num_anchors)
         self.width = 160
         self.height = 160
