@@ -1,9 +1,7 @@
-import time
-import torch
-import math
+# coding=utf-8
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.autograd import Variable
+
 from utils import *
 
 
@@ -112,7 +110,7 @@ class RegionLoss(nn.Module):
         self.anchors = anchors
         self.num_anchors = num_anchors
         self.anchor_step = len(anchors) / num_anchors
-        self.coord_scale = 1
+        self.coord_scale = 1  # 权重
         self.noobject_scale = 1
         self.object_scale = 5
         self.class_scale = 1
@@ -133,7 +131,7 @@ class RegionLoss(nn.Module):
         y = F.sigmoid(output.index_select(2, Variable(torch.cuda.LongTensor([1]))).view(nB, nA, nH, nW))
         w = output.index_select(2, Variable(torch.cuda.LongTensor([2]))).view(nB, nA, nH, nW)
         h = output.index_select(2, Variable(torch.cuda.LongTensor([3]))).view(nB, nA, nH, nW)
-        conf = F.sigmoid(output.index_select(2, Variable(torch.cuda.LongTensor([4]))).view(nB, nA, nH, nW))
+        confidence = F.sigmoid(output.index_select(2, Variable(torch.cuda.LongTensor([4]))).view(nB, nA, nH, nW))
         cls = output.index_select(2, Variable(torch.linspace(5, 5 + nC - 1, nC).long().cuda()))
         cls = cls.view(nB * nA, nC, nH * nW).transpose(1, 2).contiguous().view(nB * nA * nH * nW, nC)
         t1 = time.time()
@@ -161,7 +159,7 @@ class RegionLoss(nn.Module):
                                                                                                     self.thresh,
                                                                                                     self.seen)
         cls_mask = (cls_mask == 1)
-        nProposals = int((conf > 0.25).sum().data[0])
+        nProposals = int((confidence > 0.25).sum().data[0])
 
         tx = Variable(tx.cuda())
         ty = Variable(ty.cuda())
@@ -181,7 +179,7 @@ class RegionLoss(nn.Module):
         loss_y = self.coord_scale * nn.MSELoss(size_average=False)(y * coord_mask, ty * coord_mask) / 2.0
         loss_w = self.coord_scale * nn.MSELoss(size_average=False)(w * coord_mask, tw * coord_mask) / 2.0
         loss_h = self.coord_scale * nn.MSELoss(size_average=False)(h * coord_mask, th * coord_mask) / 2.0
-        loss_conf = nn.MSELoss(size_average=False)(conf * conf_mask, tconf * conf_mask) / 2.0
+        loss_conf = nn.MSELoss(size_average=False)(confidence * conf_mask, tconf * conf_mask) / 2.0
         loss_cls = self.class_scale * nn.CrossEntropyLoss(size_average=False)(cls, tcls)
         loss = loss_x + loss_y + loss_w + loss_h + loss_conf + loss_cls
         t4 = time.time()

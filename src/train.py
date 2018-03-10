@@ -20,9 +20,6 @@ import random
 import math
 import os
 from utils import *
-from cfg import parse_cfg
-from region_loss import RegionLoss
-from darknet import Darknet
 from tiny_yolo import TinyYoloNet
 
 # Training settings

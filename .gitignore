@@ -107,4 +107,6 @@ venv.bak/
 VOCdevkit/
 *.tar
 *.txt
-
+src/data/*.png
+src/data/*.txt
+.idea/dictionaries/shupengfei.xml

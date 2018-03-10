@@ -2,8 +2,10 @@ import torch
 from PIL.ImageDraw import ImageDraw
 from torchvision import transforms
 from matplotlib import pyplot as plt
+from torch.autograd import Variable
 
 import dataset
+from tiny_yolo import TinyYoloNet
 
 classes = ["aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow", "diningtable", "dog",
            "horse", "motorbike", "person", "pottedplant", "sheep", "sofa", "train", "tvmonitor"]
@@ -40,10 +42,16 @@ for i in range(viewd.size(0)):
     if class_index == 0 and x == 0:
         break
     draw.rectangle(((x - 0.5 * w) * 416, (y - 0.5 * h) * 416, (x + 0.5 * w) * 416, (y + 0.5 * h) * 416),
-                   outline=3)
+                   outline=(255, 255, 0))
     print(classes[int(class_index)])
 
 print(targets[0].size())
+
+tiny_yolo = TinyYoloNet()
+
+predicts = tiny_yolo.forward(Variable(targets))
+
+print(predicts.size())
 
 plt.imshow(target_image)
 plt.show()
