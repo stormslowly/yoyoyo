@@ -1,10 +1,11 @@
-import numpy as np
+from collections import OrderedDict
+
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from collections import OrderedDict
-from region_loss import RegionLoss
 import torchvision.transforms as T
-from torch.autograd import Variable
+
+from region_loss import RegionLoss
 
 
 class MaxPoolStride1(nn.Module):
@@ -107,7 +108,6 @@ class TinyYoloNet(nn.Module):
 
 
 if __name__ == '__main__':
-    from PIL import Image
     from utils import *
 
     m = TinyYoloNet()
