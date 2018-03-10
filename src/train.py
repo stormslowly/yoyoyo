@@ -22,9 +22,9 @@ gpus = 0
 ngpus = 1
 num_workers = 10
 
-batch_size = 16
+batch_size = 32
 max_batches = 1000
-learning_rate = 0.0001
+learning_rate = 0.01
 momentum = 0.9
 decay = 0.0005
 steps = [-1, 100, 20000, 30000]
