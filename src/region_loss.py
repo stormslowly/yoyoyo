@@ -109,7 +109,7 @@ class RegionLoss(nn.Module):
         self.num_classes = num_classes
         self.anchors = anchors
         self.num_anchors = num_anchors
-        self.anchor_step = len(anchors) / num_anchors
+        self.anchor_step = int(len(anchors) / num_anchors)
         self.coord_scale = 1  # 权重
         self.noobject_scale = 1
         self.object_scale = 5
