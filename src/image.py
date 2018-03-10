@@ -126,11 +126,8 @@ def load_data_detection(imgpath, shape, jitter, hue, saturation, exposure):
     labpath = imgpath.replace('images', 'labels').replace('JPEGImages', 'labels').replace('.jpg', '.txt').replace(
         '.png', '.txt')
 
-    print('img path', imgpath)
-    print('lab path', labpath)
     img = Image.open(imgpath).convert('RGB')
 
-    print('shape', shape)
     img, flip, dx, dy, sx, sy = data_augmentation(img, shape, jitter, hue, saturation, exposure)
     label = fill_truth_detection(labpath, img.width, img.height, flip, dx, dy, 1. / sx, 1. / sy)
     return img, label

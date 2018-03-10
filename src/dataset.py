@@ -30,8 +30,6 @@ class listDataset(Dataset):
         self.batch_size = batch_size
         self.num_workers = num_workers
 
-        print(self.lines[0])
-
     def __len__(self):
         return self.nSamples
 
