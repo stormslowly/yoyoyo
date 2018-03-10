@@ -10,7 +10,7 @@ def build_targets(pred_boxes, target, anchors, num_anchors, num_classes, nH, nW,
     nB = target.size(0)
     nA = num_anchors
     nC = num_classes
-    anchor_step = len(anchors) / num_anchors
+    anchor_step = int(len(anchors) / num_anchors)
     conf_mask = torch.ones(nB, nA, nH, nW) * noobject_scale
     coord_mask = torch.zeros(nB, nA, nH, nW)
     cls_mask = torch.zeros(nB, nA, nH, nW)
