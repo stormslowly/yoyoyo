@@ -49,7 +49,7 @@ if not os.path.exists(backupdir):
 ###############
 torch.manual_seed(seed)
 if use_cuda:
-    os.environ['CUDA_VISIBLE_DEVICES'] = gpus
+    # os.environ['CUDA_VISIBLE_DEVICES'] = gpus
     torch.cuda.manual_seed(seed)
 
 model = TinyYoloNet()
