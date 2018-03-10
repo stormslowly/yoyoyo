@@ -23,7 +23,7 @@ class TinyYoloNet(nn.Module):
         self.num_classes = 20
         self.anchors = [1.08, 1.19, 3.42, 4.41, 6.63, 11.38, 9.42, 5.11, 16.62, 10.52]
         self.num_anchors = len(self.anchors) / 2
-        num_output = (5 + self.num_classes) * self.num_anchors
+        num_output = int((5 + self.num_classes) * self.num_anchors)
         self.width = 160
         self.height = 160
 
@@ -119,7 +119,7 @@ if __name__ == '__main__':
 
     pr = m.forward(Variable(to_Tensor(image).unsqueeze(0)))
 
-    print (pr[0,0:5,0:4,0:4])
+    print (pr[0, 0:5, 0:4, 0:4])
     # use_cuda = 1
     # if use_cuda:
     #     m.cuda()
