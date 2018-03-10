@@ -31,7 +31,7 @@ steps = [-1, 100, 20000, 30000]
 scales = [.1, 10, .1, .1]
 
 # Train parameters
-max_epochs = max_batches * batch_size / nsamples + 1
+max_epochs = 1000
 use_cuda = True
 seed = int(time.time())
 eps = 1e-5
@@ -64,7 +64,7 @@ processed_batches = model.seen / batch_size
 
 init_width = model.width
 init_height = model.height
-init_epoch = model.seen / nsamples
+init_epoch = 0
 
 kwargs = {'num_workers': num_workers, 'pin_memory': True} if use_cuda else {}
 test_loader = torch.utils.data.DataLoader(
