@@ -88,20 +88,7 @@ class TinyYoloNet(nn.Module):
         print(self)
 
     def load_weights(self, path):
-        # buf = np.fromfile('tiny-yolo-voc.weights', dtype = np.float32)
-        buf = np.fromfile(path, dtype=np.float32)
-        start = 4
-
-        start = load_conv_bn(buf, start, self.cnn[0], self.cnn[1])
-        start = load_conv_bn(buf, start, self.cnn[4], self.cnn[5])
-        start = load_conv_bn(buf, start, self.cnn[8], self.cnn[9])
-        start = load_conv_bn(buf, start, self.cnn[12], self.cnn[13])
-        start = load_conv_bn(buf, start, self.cnn[16], self.cnn[17])
-        start = load_conv_bn(buf, start, self.cnn[20], self.cnn[21])
-
-        start = load_conv_bn(buf, start, self.cnn[24], self.cnn[25])
-        start = load_conv_bn(buf, start, self.cnn[27], self.cnn[28])
-        start = load_conv(buf, start, self.cnn[30])
+        self.load_state_dict(torch.load(path))
 
     def save_weights(self, path):
         torch.save(self.state_dict(), path)
