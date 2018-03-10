@@ -23,7 +23,7 @@ ngpus = 1
 num_workers = 10
 
 batch_size = 16
-max_batches = 128
+max_batches = 1000
 learning_rate = 0.001
 momentum = 0.9
 decay = 0.0005
@@ -249,3 +249,5 @@ else:
     for epoch in range(int(init_epoch), int(max_epochs)):
         train(epoch)
         test(epoch)
+
+print('done')
