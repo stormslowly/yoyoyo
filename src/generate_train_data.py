@@ -1,9 +1,15 @@
-from random import choice, random, triangular
-from uuid import uuid4
+import os
+from random import choice, triangular
 
-from PIL import Image, ImageDraw
+from PIL import Image
 
-bg_image = Image.open('./trainUtils/BJ.jpg').convert('RGBA')
+__dir__ = os.path.dirname(os.path.abspath(__file__))
+
+CONFIG_DIR = os.path.join(__dir__, 'config')
+CLASS_LIST_FILE = os.path.join(__dir__, 'config', 'class_list.txt')
+TRAIN_DIR = os.path.join(__dir__, 'data')
+
+bg_image = Image.open('%s/trainUtils/BJ.jpg' % (__dir__)).convert('RGBA')
 
 
 def square_image(image):
@@ -33,13 +39,13 @@ square_bg_image = square_image(bg_image)
 
 image_size = square_bg_image.size[0]
 
-class_list = map(lambda file_name: file_name.strip(), open('./config/class_list.txt').readlines())
+class_list = map(lambda file_name: file_name.strip(), open(CLASS_LIST_FILE).readlines())
 
 class_list_dict = dict((fn, index) for (index, fn) in enumerate(class_list))
 
-class_images = map(lambda fn: Image.open('./config/%s' % (fn)).convert('RGBA'), class_list)
+class_images = map(lambda fn: Image.open(os.path.join(CONFIG_DIR, fn)).convert('RGBA'), class_list)
 
-for id in xrange(1, 3):
+for id in xrange(2000):
     picked_class = class_list_dict[choice(class_list)]
     picked_image = class_images[picked_class]
 
@@ -53,9 +59,8 @@ for id in xrange(1, 3):
 
     canvas.paste(picked_image, bbox((cx * image_size, cy * image_size), picked_image), picked_image)
 
-    canvas.save('./data/%05d.png' % (id))
+    canvas.resize((512, 512)).save(os.path.join(TRAIN_DIR, '%05d.png' % (id + 1)))
 
-    f = open('./data/%05d.txt' % (id), 'wa')
-
+    f = open(os.path.join(TRAIN_DIR, '%05d.txt' % (id + 1)), 'wa')
     with f:
         f.write(' '.join(str(v) for v in label))
