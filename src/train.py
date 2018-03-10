@@ -1,50 +1,34 @@
 from __future__ import print_function
-import sys
 
-if len(sys.argv) != 4:
-    print('Usage:')
-    print('python train.py datacfg cfgfile weightfile')
-    exit()
-
-import time
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
 import torch.optim as optim
-import torch.backends.cudnn as cudnn
-from torchvision import datasets, transforms
-from torch.autograd import Variable
+from torchvision import transforms
 
 import dataset
-import random
-import math
-import os
-from utils import *
 from tiny_yolo import TinyYoloNet
+from utils import *
+
+import sys
+
+sys.path.insert(0, '/content/yoyoyo/src')
 
 # Training settings
-datacfg = sys.argv[1]
-cfgfile = sys.argv[2]
-weightfile = sys.argv[3]
+weightfile = '/content/yoyoyo/weight.data'
 
-data_options = read_data_cfg(datacfg)
-net_options = parse_cfg(cfgfile)[0]
+trainlist = '/content/yoyoyo/src/train.txt'
+testlist = '/content/yoyoyo/src/validate.txt'
+backupdir = 'backup'
+nsamples = 2000
+gpus = 0
+ngpus = 1
+num_workers = '10'
 
-trainlist = data_options['train']
-testlist = data_options['valid']
-backupdir = data_options['backup']
-nsamples = file_lines(trainlist)
-gpus = data_options['gpus']  # e.g. 0,1,2,3
-ngpus = len(gpus.split(','))
-num_workers = int(data_options['num_workers'])
-
-batch_size = int(net_options['batch'])
-max_batches = int(net_options['max_batches'])
-learning_rate = float(net_options['learning_rate'])
-momentum = float(net_options['momentum'])
-decay = float(net_options['decay'])
-steps = [float(step) for step in net_options['steps'].split(',')]
-scales = [float(scale) for scale in net_options['scales'].split(',')]
+batch_size = 32
+max_batches = 128
+learning_rate = 0.001
+momentum = 0.9
+decay = 0.0005
+steps = [-1, 100, 20000, 30000]
+scales = [.1, 10, .1, .1]
 
 # Train parameters
 max_epochs = max_batches * batch_size / nsamples + 1
@@ -71,7 +55,8 @@ if use_cuda:
 model = TinyYoloNet()
 region_loss = model.loss
 
-model.load_weights(weightfile)
+if os.path.exists(weightfile):
+    model.load_weights(weightfile)
 model.print_network()
 
 region_loss.seen = model.seen
