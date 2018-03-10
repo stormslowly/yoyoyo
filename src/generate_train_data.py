@@ -39,7 +39,8 @@ square_bg_image = square_image(bg_image)
 
 image_size = square_bg_image.size[0]
 
-class_list = map(lambda file_name: file_name.strip(), open(CLASS_LIST_FILE).readlines())
+class_list = [fn.strip() for fn in open(CLASS_LIST_FILE).readlines()]
+print(class_list)
 
 class_list_dict = dict((fn, index) for (index, fn) in enumerate(class_list))
 
