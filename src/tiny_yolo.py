@@ -102,6 +102,9 @@ class TinyYoloNet(nn.Module):
         start = load_conv_bn(buf, start, self.cnn[27], self.cnn[28])
         start = load_conv(buf, start, self.cnn[30])
 
+    def save_weights(self):
+        torch.save(self.state_dict(), PATH)
+
 
 if __name__ == '__main__':
     from PIL import Image

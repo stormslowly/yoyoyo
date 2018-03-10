@@ -184,6 +184,7 @@ def train(epoch):
         logging('save weights to %s/%06d.weights' % (backupdir, epoch + 1))
         cur_model.seen = (epoch + 1) * len(train_loader.dataset)
         cur_model.save_weights('%s/%06d.weights' % (backupdir, epoch + 1))
+        cur_model.save_weights(weightfile)
 
 
 def test(epoch):
