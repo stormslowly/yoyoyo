@@ -127,7 +127,7 @@ def train(epoch):
                             num_workers=num_workers),
         batch_size=batch_size, shuffle=False, **kwargs)
 
-    # lr = adjust_learning_rate(optimizer, processed_batches)
+    lr = learning_rate  # adjust_learning_rate(optimizer, processed_batches)
     logging('epoch %d, processed %d samples, lr %f' % (epoch, epoch * len(train_loader.dataset), lr))
     model.train()
     t1 = time.time()
