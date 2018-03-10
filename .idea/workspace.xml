@@ -69,8 +69,8 @@
       <file leaf-file-name="region_loss.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/region_loss.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="143" column="87" lean-forward="true" selection-start-line="143" selection-start-column="87" selection-end-line="143" selection-end-column="87" />
+            <state relative-caret-position="152">
+              <caret line="69" column="26" lean-forward="false" selection-start-line="69" selection-start-column="26" selection-end-line="69" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -149,6 +149,9 @@
       <find>print</find>
       <find>samples</find>
       <find>dot_interval</find>
+      <find>26</find>
+      <find>range</find>
+      <find>xrange</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -792,8 +795,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/region_loss.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="143" column="87" lean-forward="true" selection-start-line="143" selection-start-column="87" selection-end-line="143" selection-end-column="87" />
+        <state relative-caret-position="152">
+          <caret line="69" column="26" lean-forward="false" selection-start-line="69" selection-start-column="26" selection-end-line="69" selection-end-column="26" />
           <folding />
         </state>
       </provider>
