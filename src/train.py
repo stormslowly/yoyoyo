@@ -20,7 +20,7 @@ backupdir = 'backup'
 nsamples = 2000
 gpus = 0
 ngpus = 1
-num_workers = '10'
+num_workers = 10
 
 batch_size = 32
 max_batches = 128
