@@ -22,7 +22,7 @@ gpus = 0
 ngpus = 1
 num_workers = 10
 
-batch_size = 32
+batch_size = 16
 max_batches = 128
 learning_rate = 0.001
 momentum = 0.9
@@ -36,7 +36,7 @@ use_cuda = True
 seed = int(time.time())
 eps = 1e-5
 save_interval = 2  # epoches
-dot_interval = 70  # batches
+dot_interval = 1  # batches
 
 # Test parameters
 conf_thresh = 0.25
@@ -156,7 +156,7 @@ def train(epoch):
         t8 = time.time()
         optimizer.step()
         t9 = time.time()
-        if True and batch_idx > 1:
+        if batch_idx >= 1:
             avg_time[0] = avg_time[0] + (t2 - t1)
             avg_time[1] = avg_time[1] + (t3 - t2)
             avg_time[2] = avg_time[2] + (t4 - t3)
