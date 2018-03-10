@@ -45,7 +45,7 @@ class_list_dict = dict((fn, index) for (index, fn) in enumerate(class_list))
 
 class_images = map(lambda fn: Image.open(os.path.join(CONFIG_DIR, fn)).convert('RGBA'), class_list)
 
-for id in xrange(2000):
+for id in range(2000):
     picked_class = class_list_dict[choice(class_list)]
     picked_image = class_images[picked_class]
 
