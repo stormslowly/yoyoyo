@@ -24,7 +24,7 @@ num_workers = 10
 
 batch_size = 16
 max_batches = 1000
-learning_rate = 0.001
+learning_rate = 0.0001
 momentum = 0.9
 decay = 0.0005
 steps = [-1, 100, 20000, 30000]
@@ -127,14 +127,14 @@ def train(epoch):
                             num_workers=num_workers),
         batch_size=batch_size, shuffle=False, **kwargs)
 
-    lr = adjust_learning_rate(optimizer, processed_batches)
+    # lr = adjust_learning_rate(optimizer, processed_batches)
     logging('epoch %d, processed %d samples, lr %f' % (epoch, epoch * len(train_loader.dataset), lr))
     model.train()
     t1 = time.time()
     avg_time = torch.zeros(9)
     for batch_idx, (data, target) in enumerate(train_loader):
         t2 = time.time()
-        adjust_learning_rate(optimizer, processed_batches)
+        # adjust_learning_rate(optimizer, processed_batches)
         processed_batches = processed_batches + 1
         if (batch_idx + 1) % dot_interval == 0:
             sys.stdout.write('.')
