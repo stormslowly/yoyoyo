@@ -62,6 +62,6 @@ for id in range(2000):
 
     canvas.resize((512, 512)).save(os.path.join(TRAIN_DIR, '%05d.png' % (id + 1)))
 
-    f = open(os.path.join(TRAIN_DIR, '%05d.txt' % (id + 1)), 'wa')
+    f = open(os.path.join(TRAIN_DIR, '%05d.txt' % (id + 1)), 'w')
     with f:
         f.write(' '.join(str(v) for v in label))
