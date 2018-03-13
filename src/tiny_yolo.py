@@ -1,10 +1,11 @@
 from collections import OrderedDict
+import numpy as np
 
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.transforms as T
 
+from cfg import *
 from region_loss import RegionLoss
 
 
@@ -93,6 +94,21 @@ class TinyYoloNet(nn.Module):
     def save_weights(self, path):
         torch.save(self.state_dict(), path)
 
+    def load_pre_weights(self, path):
+        buf = np.fromfile(path, dtype=np.float32)
+        start = 4
+
+        start = load_conv_bn(buf, start, self.cnn[0], self.cnn[1])
+        start = load_conv_bn(buf, start, self.cnn[4], self.cnn[5])
+        start = load_conv_bn(buf, start, self.cnn[8], self.cnn[9])
+        start = load_conv_bn(buf, start, self.cnn[12], self.cnn[13])
+        start = load_conv_bn(buf, start, self.cnn[16], self.cnn[17])
+        start = load_conv_bn(buf, start, self.cnn[20], self.cnn[21])
+
+        start = load_conv_bn(buf, start, self.cnn[24], self.cnn[25])
+        start = load_conv_bn(buf, start, self.cnn[27], self.cnn[28])
+        start = load_conv(buf, start, self.cnn[30])
+
 
 if __name__ == '__main__':
     from utils import *
@@ -101,22 +117,17 @@ if __name__ == '__main__':
     m.float()
     m.eval()
     # m.load_darknet_weights('tiny-yolo-voc.weights')
-    print(m)
 
-    image = Image.open('./trainUtils/BJ.jpg')
+    m.load_weights('./weight.data')
+    # print(m)
 
-    to_Tensor = T.Compose([T.Scale((160, 160)), T.ToTensor()])
-
-    pr = m.forward(Variable(to_Tensor(image).unsqueeze(0)))
-
-    print (pr[0, 0:5, 0:4, 0:4])
-    # use_cuda = 1
-    # if use_cuda:
-    #     m.cuda()
+    use_cuda = 1
+    if use_cuda:
+        m.cuda()
     #
-    # img = Image.open('data/person.jpg').convert('RGB')
-    # sized = img.resize((416, 416))
-    # boxes = do_detect(m, sized, 0.5, 0.4, use_cuda)
-    #
-    # class_names = load_class_names('data/voc.names')
-    # plot_boxes(img, boxes, 'predict1.jpg', class_names)
+    img = Image.open('data/01995.png').convert('RGB')
+    sized = img.resize((416, 416))
+    boxes = do_detect(m, sized, 0.5, 0.4, use_cuda)
+
+    class_names = load_class_names('config/class_list.txt')
+    plot_boxes(img, boxes, 'predict1.jpg', class_names)

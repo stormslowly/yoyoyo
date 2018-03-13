@@ -13,7 +13,7 @@ classes = ["aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat"
 init_width, init_height = (160, 160)
 
 test_loader = torch.utils.data.DataLoader(
-    dataset.listDataset('../voc_train.txt', shape=None,
+    dataset.listDataset('./game.train.txt', shape=None,
                         shuffle=True,
                         transform=transforms.Compose([
                             transforms.ToTensor(),

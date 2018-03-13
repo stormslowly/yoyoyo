@@ -13,18 +13,20 @@ sys.path.insert(0, '/content/yoyoyo/src')
 
 # Training settings
 weightfile = '/content/yoyoyo/weight.data'
+weightfile = './weight.data'
 
-trainlist = '/content/yoyoyo/src/train.txt'
-testlist = '/content/yoyoyo/src/validate.txt'
+trainlist = './game.train.txt'
+testlist = './game.valid.txt'
+
 backupdir = 'backup'
 nsamples = 2000
 gpus = 0
 ngpus = 1
 num_workers = 10
 
-batch_size = 32
-max_batches = 1000
-learning_rate = 0.01
+batch_size = 5
+max_batches = 2000000
+learning_rate = 0.0001
 momentum = 0.9
 decay = 0.0005
 steps = [-1, 100, 20000, 30000]
@@ -35,8 +37,8 @@ max_epochs = 1000
 use_cuda = True
 seed = int(time.time())
 eps = 1e-5
-save_interval = 2  # epoches
-dot_interval = 1  # batches
+save_interval = 10  # epoches
+dot_interval = 5  # batches
 
 # Test parameters
 conf_thresh = 0.25
@@ -57,6 +59,9 @@ region_loss = model.loss
 
 if os.path.exists(weightfile):
     model.load_weights(weightfile)
+else:
+    model.load_pre_weights('./tiny-yolo-voc.weights')
+
 model.print_network()
 
 region_loss.seen = model.seen
@@ -66,7 +71,7 @@ init_width = model.width
 init_height = model.height
 init_epoch = 0
 
-kwargs = {'num_workers': num_workers, 'pin_memory': True} if use_cuda else {}
+kwargs = {}  # {'num_workers': num_workers, 'pin_memory': True} if use_cuda else {}
 test_loader = torch.utils.data.DataLoader(
     dataset.listDataset(testlist, shape=(init_width, init_height),
                         shuffle=False,
